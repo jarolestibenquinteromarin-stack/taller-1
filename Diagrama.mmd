@@ -1,0 +1,39 @@
+erDiagram
+    USUARIO {
+        int id_usuario PK "AUTO_INCREMENT"
+        varchar nombre "NOT NULL"
+        varchar email "UNIQUE, NOT NULL"
+        varchar telefono "Opcional"
+        timestamp fecha_registro "DEFAULT CURRENT_TIMESTAMP"
+    }
+
+    PLATO {
+        int id_plato PK "AUTO_INCREMENT"
+        varchar nombre "NOT NULL"
+        text descripcion "Opcional"
+        decimal precio "NOT NULL"
+        boolean disponible "DEFAULT TRUE"
+    }
+
+    PEDIDO {
+        int id_pedido PK "AUTO_INCREMENT"
+        int id_usuario FK "NOT NULL"
+        datetime fecha_pedido "DEFAULT CURRENT_TIMESTAMP"
+        varchar estado "DEFAULT 'Pendiente'"
+        decimal total "NOT NULL"
+    }
+
+    DETALLE_PEDIDO {
+        int id_detalle PK "AUTO_INCREMENT"
+        int id_pedido FK "NOT NULL"
+        int id_plato FK "NOT NULL"
+        int cantidad "NOT NULL"
+        decimal subtotal "NOT NULL"
+    }
+
+    %% Relaciones
+    USUARIO ||--o{ PEDIDO : "realiza"
+    PEDIDO ||--|{ DETALLE_PEDIDO : "contiene"
+    PLATO ||--o{ DETALLE_PEDIDO : "se incluye en"
+    RESTAURANTE ||--o{ PLATO : "ofrece"
+    REPARTIDOR  ||--o{ PEDIDO : "entrega"
